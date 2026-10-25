@@ -224,7 +224,7 @@ const OrdersList = () => {
   const getImageForColor = (item: OrderItem) => {
     const rawImages = item?.jewellery?.images;
 
-    if (!rawImages) return "/assets/brand/je-inspi-logo-transparent.png";
+    if (!rawImages) return "/assets/brand/je-inspi-wordmark.png";
 
     const images = Array.isArray(rawImages)
       ? rawImages
@@ -237,7 +237,7 @@ const OrdersList = () => {
     return (
       colorImage?.image ||
       images[0]?.image ||
-      "/assets/brand/je-inspi-logo-transparent.png"
+      "/assets/brand/je-inspi-wordmark.png"
     );
   };
 
@@ -333,7 +333,7 @@ const OrdersList = () => {
                       className="flex-shrink-0 w-16 h-16 md:w-20 md:h-20 rounded-md overflow-hidden bg-brand-50 border border-brand-100"
                     >
                       <Image
-                        src={getImageForColor(item) || "/assets/brand/je-inspi-logo-transparent.png"}
+                        src={getImageForColor(item) || "/assets/brand/je-inspi-wordmark.png"}
                         alt={item.jewellery?.name || "Product"}
                         width={80}
                         height={80}

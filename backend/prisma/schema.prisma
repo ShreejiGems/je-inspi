@@ -740,3 +740,19 @@ model Otp {
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
 }
+
+// One outstanding token per customer; only SHA-256 hashes are stored.
+model PasswordResetToken {
+  userId    String   @id
+  tokenHash String   @unique @db.Char(64)
+  expiresAt DateTime
+  @@index([expiresAt])
+}
+
+// Shared across workers and restarts. Keys contain hashes, never raw emails/IPs.
+model PasswordResetRateLimit {
+  id        String   @id @db.Char(64)
+  count     Int      @default(1)
+  expiresAt DateTime
+  @@index([expiresAt])
+}

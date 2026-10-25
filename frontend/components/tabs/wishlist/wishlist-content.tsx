@@ -221,7 +221,7 @@ const WishlistContent: React.FC = () => {
         console.error("Failed to parse diamond images:", error);
       }
     }
-    return "/assets/brand/je-inspi-logo-transparent.png";
+    return "/assets/brand/je-inspi-wordmark.png";
   };
 
   // Get product name

@@ -44,7 +44,7 @@ export interface SignupRequest {
 }
 
 export interface ChangePasswordRequest {
-  email: string;
+  token: string;
   password: string;
 }
 
@@ -152,16 +152,15 @@ export const authAPI = {
     return apiHelper.post<AuthResponse>("/auth/login", data);
   },
 
+  requestPasswordReset: async (email: string): Promise<{ message: string }> => {
+    return apiHelper.post<{ message: string }>("/auth/request-password-reset", { email });
+  },
+
   // Change password
   changePassword: async (
     data: ChangePasswordRequest
   ): Promise<{ message: string }> => {
-    return apiHelper.post<{ message: string }>("/auth/change-password", undefined, {
-      params: {
-        email: data.email,
-        password: data.password
-      }
-    });
+    return apiHelper.post<{ message: string }>("/auth/change-password", data);
   },
 
   // Get user profile
@@ -184,12 +183,12 @@ export const authAPI = {
     return apiHelper.post<{ message: string; user: UserProfile }>("/auth/update-profile", data);
   },
 
-  // Send OTP for password reset
+  // Send registration verification OTP
   sendOtp: async (data: SendOtpRequest): Promise<{ message: string }> => {
     return apiHelper.post<{ message: string }>("/auth/send-otp", data);
   },
 
-  // Verify OTP for password reset
+  // Verify registration OTP
   verifyOtp: async (data: VerifyOtpRequest): Promise<{ message: string }> => {
     return apiHelper.post<{ message: string }>("/auth/verify-otp", data);
   },

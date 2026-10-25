@@ -87,7 +87,7 @@ const DiamondListPage: React.FC = () => {
       const mapped: DiamondRow[] = list.map((item: Diamond) => ({
         key: item.id,
         image:
-          getFirstImage(item.images) || "/assets/brand/je-inspi-logo-transparent.png",
+          getFirstImage(item.images) || "/assets/brand/je-inspi-wordmark.png",
         name: item.name,
         sku: item.sku || "N/A",
         clarity: item.clarity || "N/A",

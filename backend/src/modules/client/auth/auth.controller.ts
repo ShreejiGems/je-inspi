@@ -9,11 +9,12 @@ import {
   Req,
   UseGuards,
 } from '@nestjs/common';
+import { PasswordResetService, PasswordResetGuard } from './password-reset.service';
+import { RequestPasswordResetDto, ResetPasswordDto } from './dto/password-reset.dto';
 import { AuthService } from './auth.service';
 import {
   ApiBearerAuth,
   ApiOperation,
-  ApiQuery,
   ApiTags,
 } from '@nestjs/swagger';
 import {
@@ -37,7 +38,7 @@ import { BaseQueryCoreDto } from 'src/core/base-query-core/dto/base-query-core.d
 @Controller('auth')
 @ApiTags('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(private readonly authService: AuthService, private readonly passwordReset: PasswordResetService) {}
 
   @Post('admin-signup')
   @ApiOperation({ summary: 'admin sign-up' })
@@ -76,22 +77,16 @@ export class AuthController {
   //   return await this.authService.verifyEmailOtp(verifyEmailOtpDto);
   // }
 
-  // @Post('send-reset-password-mail')
-  // @ApiOperation({ summary: 'send link for reset-password' })
-  // @ApiQuery({ name: 'email', required: true, type: String })
-  // async resetPaasswordMail(@Query('email') email: string) {
-  //   return await this.authService.resetPasswordMail(email);
-  // }
+  @Post('request-password-reset')
+  @UseGuards(PasswordResetGuard)
+  async requestPasswordReset(@Body() dto: RequestPasswordResetDto) {
+    return this.passwordReset.request(dto.email);
+  }
 
   @Post('change-password')
-  @ApiOperation({ summary: 'for reset-password' })
-  @ApiQuery({ name: 'email', required: true, type: String })
-  @ApiQuery({ name: 'password', required: true, type: String })
-  async resetPaassword(
-    @Query('email') email: string,
-    @Query('password') password: string,
-  ) {
-    return await this.authService.resetPaassword(email, password);
+  @UseGuards(PasswordResetGuard)
+  async resetPassword(@Body() dto: ResetPasswordDto) {
+    return this.passwordReset.reset(dto.token, dto.password);
   }
 
   @Get(':userId/profile')

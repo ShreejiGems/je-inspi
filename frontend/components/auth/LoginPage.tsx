@@ -52,7 +52,7 @@ const LoginPage: React.FC = () => {
         {/* Header */}
         <div className="text-center mb-8">
           <Image
-            src="/assets/brand/je-inspi-logo-transparent.png"
+            src="/assets/brand/je-inspi-wordmark.png"
             width={151}
             height={68}
             alt="JE-Inspi logo"

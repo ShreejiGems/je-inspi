@@ -12,8 +12,8 @@ const garamond = EB_Garamond({
 });
 
 export const metadata: Metadata = {
-  title: "JE-Inspi | Fine Jewellery & Diamonds",
-  description: "Discover fine jewellery and diamonds with JE-Inspi.",
+  title: "JE-Inspi | Jewellery, Diamonds & Fashion",
+  description: "Discover jewellery, diamonds and fashion with JE-Inspi.",
   icons: { icon: "/assets/brand/favicon.svg" },
 };
 

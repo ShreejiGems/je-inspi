@@ -1,3 +1,5 @@
+import { PrismaModule } from 'src/shared/module/prisma/prisma.module';
+import { PasswordResetService, PasswordResetGuard } from './password-reset.service';
 import { Module } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
@@ -13,6 +15,7 @@ import { OtpCoreModule } from 'src/core/otp-core/otp-core.module';
 
 @Module({
   imports: [
+    PrismaModule,
     JwtModule.register({
       secret: process.env.JWT_SECRET,
     }),
@@ -27,6 +30,6 @@ import { OtpCoreModule } from 'src/core/otp-core/otp-core.module';
     OtpCoreModule,
   ],
   controllers: [AuthController],
-  providers: [AuthService, JwtStrategy],
+  providers: [AuthService, JwtStrategy, PasswordResetService, PasswordResetGuard],
 })
 export class AuthModule {}

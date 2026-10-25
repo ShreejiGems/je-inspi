@@ -106,7 +106,7 @@ const ProductListPage: React.FC = () => {
       const mapped: ProductRow[] = list.map((item: any) => ({
         key: item.id,
         image:
-          getFirstImage(item.images) || "/assets/brand/je-inspi-logo-transparent.png", // fallback if no image field
+          getFirstImage(item.images) || "/assets/brand/je-inspi-wordmark.png", // fallback if no image field
         name: item.name,
         type: item.typeId || "N/A",
         sku: item.sku || "N/A",

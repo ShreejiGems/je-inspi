@@ -173,6 +173,11 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
             </div>
 
             <div className="divide-y divide-brand-100">
+              <nav aria-label="Collections" className="grid gap-1 p-4">
+                {[{ href: '/jewellery', label: 'Jewellery' }, { href: '/diamond', label: 'Diamonds' }, { href: '/fashion', label: 'Fashion' }].map(item => (
+                  <Link key={item.href} href={item.href} onClick={onClose} className="py-2 text-lg text-brand-900 hover:text-brand-600">{item.label}</Link>
+                ))}
+              </nav>
               {/* Categories */}
               <div className="py-2">
                 <h3 className="px-4 py-2 font-medium text-brand-900">

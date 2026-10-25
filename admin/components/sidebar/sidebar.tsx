@@ -48,7 +48,7 @@ const Sidebar = () => {
       {/* Logo */}
       <div className="p-6 flex justify-center items-center">
         <Image
-          src="/assets/brand/je-inspi-logo-transparent.png"
+          src="/assets/brand/je-inspi-wordmark.png"
           width={151}
           height={68}
           alt="JE-Inspi logo"

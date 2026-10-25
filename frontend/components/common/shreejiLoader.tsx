@@ -49,7 +49,7 @@ const ShreejiLoader: React.FC<ShreejiLoaderProps> = ({
                 {/* Center logo */}
                 <div className="relative z-10">
                     <Image
-                        src="/assets/brand/je-inspi-logo-transparent.png"
+                        src="/assets/brand/je-inspi-wordmark.png"
                         width={sizes.logo.width}
                         height={sizes.logo.height}
                         alt="JE-Inspi logo"

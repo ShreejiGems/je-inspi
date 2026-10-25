@@ -849,7 +849,7 @@ const ProductDetail = () => {
                     src={
                       allImageUrls.length > 0
                         ? allImageUrls[currentImageIndex]
-                        : "/assets/brand/je-inspi-logo-transparent.png"
+                        : "/assets/brand/je-inspi-wordmark.png"
                     }
                     alt={product.name || "Product"}
                     fill
@@ -1680,7 +1680,7 @@ const ProductDetail = () => {
                   <Image
                     src={
                       relatedProduct.images?.[0]?.image ||
-                      "/assets/brand/je-inspi-logo-transparent.png"
+                      "/assets/brand/je-inspi-wordmark.png"
                     }
                     alt={relatedProduct.name || "Product"}
                     fill

@@ -91,7 +91,7 @@ const AboutUs = () => {
         <div className="py-3 my-2 px-5 backdrop-blur-md rounded-4xl border-0">
           <Link href="/">
             <Image
-              src="/assets/brand/je-inspi-logo-transparent.png"
+              src="/assets/brand/je-inspi-wordmark.png"
               width={330}
               height={330}
               alt="JE-Inspi logo"

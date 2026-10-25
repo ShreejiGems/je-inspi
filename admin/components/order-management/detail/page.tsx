@@ -168,7 +168,7 @@ const OrderDetailPage: React.FC = () => {
                     {/* Product Image - You may need to fetch jewellery details to get the image */}
                     <div className="w-32 h-32 bg-white rounded-lg border flex items-center justify-center">
                       <img
-                        src={item.image || '/assets/brand/je-inspi-logo-transparent.png'}
+                        src={item.image || '/assets/brand/je-inspi-wordmark.png'}
                         alt="Product"
                         className="w-full h-full object-contain rounded-lg"
                       />

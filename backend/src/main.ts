@@ -5,6 +5,9 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { rawBody: true });
+  if (process.env.TRUST_PROXY_LOOPBACK === 'true') {
+    app.getHttpAdapter().getInstance().set('trust proxy', 'loopback');
+  }
   app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }));
 
   const config = new DocumentBuilder()

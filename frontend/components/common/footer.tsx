@@ -50,6 +50,7 @@ const Footer = () => {
                 { label: "About Us", link: "/about-us" },
                 { label: "Jewellery", link: "/jewellery" },
                 { label: "Diamonds", link: "/diamond" },
+                { label: "Fashion", link: "/fashion" },
                 { label: "Customized", link: "/diamond/custom" },
               ].map((item, i) => (
                 <Link

@@ -97,6 +97,6 @@ Configure PM2 startup for the server's service user. Verify the API database hea
 
 ## Before public launch
 
-The inherited API contains a hardcoded JWT secret and an unauthenticated `auth/change-password` route. Those authentication issues must be corrected before exposing the hosted application. Provision the intended admin account with a production password and complete HTTPS setup. External storage, email and payment webhook settings also need real JE-Inspi configuration before those workflows are used.
+JWT signing now reads the private `JWT_SECRET` environment variable; generate a new production secret. Customer password reset now requires a one-time emailed token. Before deploying, apply its additive database schema, configure email and the trusted HTTPS proxy, and complete the staging delivery checks in [PASSWORD-RESET.md](PASSWORD-RESET.md). Provision the intended admin account with a production password and complete HTTPS setup. External storage, email and payment webhook settings also need real JE-Inspi configuration before those workflows are used.
 
 The copied backend's old GitHub workflow targeted a Shreeji server path. It is now a manual build workflow; it does not deploy or change remote schemas. A JE-Inspi deployment workflow can be configured after the actual server and repository access are available.

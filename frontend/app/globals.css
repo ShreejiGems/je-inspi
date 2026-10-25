@@ -170,7 +170,7 @@ body {
 }
 
 /* Preserve the logo alpha channel without a background panel. */
-img[src*="/assets/brand/je-inspi-logo-transparent.png"] {
+img[src*="je-inspi-wordmark.png"] {
   object-fit: contain;
   background-color: transparent;
   border-radius: 0;

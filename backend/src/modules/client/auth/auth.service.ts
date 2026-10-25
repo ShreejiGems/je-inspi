@@ -341,108 +341,10 @@ export class AuthService {
     return { newSession };
   }
 
-  // async resetPasswordMail(email: string) {
-  //   const user = await this.userCoreService.findFirst({
-  //     where: { email, isDeleted: false },
-  //   });
-
-  //   if (!user) {
-  //     throw new BadRequestException(userMessage.USER_NOT_FOUND);
-  //   }
-
-  //   const authToken = this.jwtService
-  //     .sign({ id: user.id }, { expiresIn: '1h' })
-  //     .toString();
-
-  //   const newSession = await this.userSessionCoreService.create({
-  //     data: { userId: user.id, authToken },
-  //   });
-
-  //   const link =
-  //     `${process.env.BASE_URL}/auth/reset-password?auth=` +
-  //     `${newSession.authToken}`;
-
-  //   const sendSmtpEmail = new Brevo.SendSmtpEmail();
-
-  //   sendSmtpEmail.subject = 'Reset Your Password';
-  //   sendSmtpEmail.htmlContent = `
-  //     <html>
-  //       <body>
-  //         <h1>Reset Your Password</h1>
-  //         <p>Click on the link below to reset your password:</p>
-  //         <a href="${link}">${link}</a>
-  //       </body>
-  //     </html>
-  //   `;
-  //   sendSmtpEmail.sender = {
-  //     name: 'concertGoers',
-  //     email: 'dhruvmatsquare@gmail.com',
-  //   };
-  //   sendSmtpEmail.to = [{ email, name: 'User' }];
-  //   sendSmtpEmail.replyTo = {
-  //     email: 'dhruvmatsquare@gmail.com',
-  //     name: 'concertGoers',
-  //   };
-  //   sendSmtpEmail.headers = {
-  //     'X-Requested-With': 'XMLHttpRequest',
-  //   };
-  //   sendSmtpEmail.params = {
-  //     resetLink: link,
-  //     subject: 'Password Reset Request',
-  //   };
-
-  //   try {
-  //     const data = await this.brevoClient.sendTransacEmail(sendSmtpEmail);
-  //     console.log('Email sent successfully, messageId:', data.messageId);
-  //   } catch (error) {
-  //     console.error('Error sending email:', error);
-  //   }
-
-  //   return link;
-  // }
-
   async userProfile(userId: string) {
     return await this.userCoreService.findFirst({
       where: { id: userId, isDeleted: false },
     });
-  }
-
-  async resetPaassword(email: string, password: string) {
-    const userExist = await this.userCoreService.findFirst({
-      where: { email, isDeleted: false, userType: USER_TYPE.USER },
-    });
-
-    if (!userExist) {
-      throw new BadRequestException(userMessage.USER_NOT_FOUND);
-    }
-
-    const passwordExist = await this.passwordCoreService.findFirst({
-      where: { userId: userExist.id },
-    });
-
-    const encryptedPassword = await encrypt(password);
-
-    if (passwordExist) {
-      await this.passwordCoreService.update({
-        where: { id: passwordExist.id },
-        data: { password: encryptedPassword },
-      });
-
-      await this.userSessionCoreService.updateMany({
-        where: { userId: userExist.id },
-        data: { isDeleted: true },
-      });
-    } else {
-      await this.passwordCoreService.create({
-        data: { userId: userExist.id, password: encryptedPassword },
-      });
-    }
-
-    return {
-      success: true,
-      status: 200,
-      message: passwordMessages.PASSWORD_UPDATED,
-    };
   }
 
   async logout(header: any, sessionData: UserSessionType) {
@@ -574,14 +476,8 @@ export class AuthService {
   async sendOtp(sendOtpDto: SendOtpDto) {
     const { email, otpType } = sendOtpDto;
 
-    if (otpType === 'FORGET_PASSWORD') {
-      const userExist = await this.userCoreService.findFirst({
-        where: { email, isDeleted: false, userType: USER_TYPE.USER },
-      });
-
-      if (!userExist) {
-        throw new BadRequestException(userMessage.USER_NOT_FOUND);
-      }
+    if (otpType !== 'REGISTER') {
+      throw new BadRequestException('Use request-password-reset to reset your password');
     }
 
     const randomOtp = Math.floor(100000 + Math.random() * 900000);

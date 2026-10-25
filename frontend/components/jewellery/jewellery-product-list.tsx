@@ -236,7 +236,7 @@ const JewelleryProductList: React.FC<JewelleryProductListProps> = ({
                 className="w-full h-full object-cover"
                 priority={productIndex < 24}
                 onError={(e) => {
-                  (e.target as HTMLImageElement).src = "/assets/brand/je-inspi-logo-transparent.png";
+                  (e.target as HTMLImageElement).src = "/assets/brand/je-inspi-wordmark.png";
                 }}
               />
             </div>
@@ -293,7 +293,7 @@ const JewelleryProductList: React.FC<JewelleryProductListProps> = ({
     const mainImage =
       normalizedImages.length > 0
         ? normalizedImages[0].image
-        : "/assets/brand/je-inspi-logo-transparent.png"; // assets/jewellery/product-sample.svg
+        : "/assets/brand/je-inspi-wordmark.png"; // assets/jewellery/product-sample.svg
     const isInWishlist = product.isWishlisted;
 
     const userDiscount = user?.discount || 0;
@@ -323,7 +323,7 @@ const JewelleryProductList: React.FC<JewelleryProductListProps> = ({
         {/* Product Image */}
         <div className="w-full h-72 flex items-center justify-center mb-4 mt-6">
           <Image
-            src={mainImage || "/assets/brand/je-inspi-logo-transparent.png"}
+            src={mainImage || "/assets/brand/je-inspi-wordmark.png"}
             alt={product.name}
             width={150}
             height={150}

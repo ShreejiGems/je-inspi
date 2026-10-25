@@ -37,6 +37,7 @@ const Navbar = () => {
     if (pathname.startsWith("/diamond")) {
       return "diamond";
     } else if (
+      pathname.startsWith("/fashion") ||
       pathname.startsWith("/about-us") ||
       pathname.startsWith("/contact-us") ||
       pathname.startsWith("/profile") ||
@@ -58,6 +59,7 @@ const Navbar = () => {
   const diamondNavItems = [
     { value: "Diamond", label: "Diamond", redirect: "diamond" },
     { value: "Jewellery", label: "Jewellery", redirect: "jewellery" },
+    { value: "Fashion", label: "Fashion", redirect: "fashion" },
   ];
 
   const diamondTypesItems = [
@@ -247,7 +249,7 @@ const Navbar = () => {
               />
               <Link href="/">
                 <Image
-                  src="/assets/brand/je-inspi-logo-transparent.png"
+                  src="/assets/brand/je-inspi-wordmark.png"
                   width={151}
                   height={68}
                   alt="JE-Inspi logo"
@@ -315,6 +317,7 @@ const Navbar = () => {
                   )}
                 </div>
               )}
+              <Link href="/fashion" className="text-[16px] md:text-[18px] font-medium hover:underline underline-offset-4">Fashion</Link>
               <Link href="/diamond">
                 <Image
                   src={
@@ -411,7 +414,7 @@ const Navbar = () => {
             <div className="relative w-full flex flex-col justify-center items-center">
               <Link href="/">
                 <Image
-                  src="/assets/brand/je-inspi-logo-transparent.png"
+                  src="/assets/brand/je-inspi-wordmark.png"
                   width={151}
                   height={68}
                   alt="JE-Inspi logo"
@@ -425,7 +428,7 @@ const Navbar = () => {
             </div>
 
             <div
-              className={`flex justify-center items-center md:space-x-10 mb-2 space-x-5 h-[50px] ${hoveredItem !== null || !isFontNeedWhite
+              className={`flex flex-wrap justify-center items-center gap-x-5 gap-y-3 mb-3 py-2 min-h-[50px] ${hoveredItem !== null || !isFontNeedWhite
                 ? "text-brand-900"
                 : "text-white"
                 }`}
@@ -443,6 +446,7 @@ const Navbar = () => {
                   </div>
                 </Link>
               ))}
+              <Link href="/fashion" className="text-[16px] md:text-[18px] font-medium hover:underline underline-offset-4">Fashion</Link>
               <Link href="/jewellery">
                 <Image
                   src={
@@ -511,7 +515,7 @@ const Navbar = () => {
               {/* backdrop-blur-sm rounded-4xl border-0 */}
               <Link href="/">
                 <Image
-                  src="/assets/brand/je-inspi-logo-transparent.png"
+                  src="/assets/brand/je-inspi-wordmark.png"
                   width={151}
                   height={68}
                   alt="JE-Inspi logo"
@@ -547,7 +551,7 @@ const Navbar = () => {
             {diamondNavItems.map((item) => (
               <Link href={`/${item.redirect}`} key={item.value}>
                 <div
-                  className={`cursor-pointer md:text-[18px] text-[14px] font-[500] hover:scale-110 ease-in-out transition-all duration-300 ${activeDiamondTab === item.value ? "font-[600]" : ""
+                  className={`cursor-pointer md:text-[18px] text-[14px] font-[500] hover:scale-110 ease-in-out transition-all duration-300 ${pathname.startsWith(`/${item.redirect}`) ? "font-[600] underline underline-offset-4" : ""
                     }`}
                   onClick={() => {
                     setActiveDiamondTab(item.value);

@@ -17,7 +17,7 @@ const ThankYouPage: React.FC = () => {
         <div className="text-center mb-8 flex flex-col justify-center items-center">
           <Link href="/">
             <Image
-              src="/assets/brand/je-inspi-logo-transparent.png"
+              src="/assets/brand/je-inspi-wordmark.png"
               width={151}
               height={68}
               alt="JE-Inspi logo"

@@ -210,7 +210,7 @@ const Home = () => {
         <div className="absolute py-3 my-2 px-5 backdrop-blur-md rounded-4xl border-0">
           <Link href="/">
             <Image
-              src="/assets/brand/je-inspi-logo-transparent.png"
+              src="/assets/brand/je-inspi-wordmark.png"
               width={151}
               height={68}
               alt="JE-Inspi logo"
@@ -218,6 +218,11 @@ const Home = () => {
               className="cursor-pointer brand-logo-ivory"
             />
           </Link>
+          <nav aria-label="Explore JE-Inspi" className="mt-4 flex justify-center gap-6 text-white text-base">
+            <Link href="/jewellery" className="hover:underline underline-offset-4">Jewellery</Link>
+            <Link href="/diamond" className="hover:underline underline-offset-4">Diamonds</Link>
+            <Link href="/fashion" className="hover:underline underline-offset-4">Fashion</Link>
+          </nav>
         </div>
       </div>
 
@@ -228,28 +233,28 @@ const Home = () => {
       >
         {/* Black text on top */}
         <p className="absolute text-center text-brand-900 leading-snug text-[16px] sm:text-[20px] md:text-[24px]">
-          Explore JE-Inspi Fine Jewellery and Diamonds
+          Explore JE-Inspi Jewellery, Diamonds and Fashion
           <br />
           Discover pieces for your personal style.
         </p>
 
         {/* Light gray larger text below */}
         <p className="text-center text-[#e3ebdd] leading-snug text-[26px] sm:text-[32px] md:text-[40px]">
-          Explore JE-Inspi Fine Jewellery and Diamonds
+          Explore JE-Inspi Jewellery, Diamonds and Fashion
           <br />
           Discover pieces for your personal style.
         </p>
       </div>
 
-      {/* Section 3: Jewellery and Diamond section */}
-      <div className="flex flex-col md:flex-row justify-center items-center px-4 md:px-10 mx-auto gap-10 md:gap-20">
+      {/* Section 3: Explore the three JE-Inspi collections */}
+      <div className="grid grid-cols-1 md:grid-cols-3 px-4 md:px-10 mx-auto gap-6 w-full max-w-[1800px]">
         {/* Jewellery */}
         <Link
           href="/jewellery"
-          className="relative cursor-pointer w-full md:w-auto block"
+          className="relative cursor-pointer w-full min-w-0 block"
           data-aos="fade-down"
         >
-          <div className="relative w-full md:min-w-[40vw] h-[90vh] min-h-[300px] md:min-h-[600px]">
+          <div className="relative w-full h-[65vh] min-h-[360px] max-h-[720px]">
             <ResponsiveMedia
               desktopType="JEWELLERY_VIDEO"
               mobileType="JEWELLERY_VIDEO"
@@ -272,10 +277,10 @@ const Home = () => {
         {/* Diamond */}
         <Link
           href="/diamond"
-          className="relative cursor-pointer w-full md:w-auto"
+          className="relative cursor-pointer w-full min-w-0"
           data-aos="fade-down"
         >
-          <div className="relative w-full md:min-w-[40vw] h-[90vh] min-h-[300px] md:min-h-[600px] cursor-pointer">
+          <div className="relative w-full h-[65vh] min-h-[360px] max-h-[720px] cursor-pointer">
             <ResponsiveMedia
               desktopType="DIAMOND_VIDEO"
               mobileType="DIAMOND_VIDEO"
@@ -292,6 +297,18 @@ const Home = () => {
             <p className="font-[300] text-[16px] sm:text-[20px] md:text-[24px]">
               Source Your Perfect Sparkle
             </p>
+          </div>
+        </Link>
+
+        <Link href="/fashion" className="relative cursor-pointer w-full min-w-0 group block" data-aos="fade-down">
+          <div className="relative w-full h-[65vh] min-h-[360px] max-h-[720px] overflow-hidden rounded-2xl shadow-2xl">
+            <Image src="/assets/home/collection/Modal Fourth Image.jpg" alt="Fashion styling with embroidered fabric and statement accessories"
+              fill sizes="(max-width: 767px) 100vw, 33vw" className="object-cover transition-transform duration-700 group-hover:scale-105" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
+          </div>
+          <div className="absolute inset-x-0 bottom-0 z-10 mb-6 sm:mb-8 md:mb-10 text-white text-center px-3">
+            <p className="font-[400] text-[24px] sm:text-[32px] md:text-[40px]">Fashion</p>
+            <p className="font-[300] text-[16px] sm:text-[20px] md:text-[24px]">Express Your Individual Style</p>
           </div>
         </Link>
       </div>
@@ -336,7 +353,7 @@ const Home = () => {
                   currentDisplayProduct?.jewellery?.images?.[0]?.image ||
                   currentDisplayProduct?.product?.images?.[0]?.image ||
                   currentDisplayProduct?.images?.[0]?.image ||
-                  "/assets/brand/je-inspi-logo-transparent.png"
+                  "/assets/brand/je-inspi-wordmark.png"
                 }
                 alt={
                   currentDisplayProduct?.product?.jewellery?.name ||

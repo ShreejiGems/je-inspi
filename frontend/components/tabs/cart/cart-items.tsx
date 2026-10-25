@@ -228,7 +228,7 @@ const CartItems = () => {
     return (
       colorImage?.image ||
       images[0]?.image ||
-      "/assets/brand/je-inspi-logo-transparent.png"
+      "/assets/brand/je-inspi-wordmark.png"
     );
   };
 
@@ -383,7 +383,7 @@ const CartItems = () => {
                       <Image
                         src={
                           getImageForColor(item) ||
-                          "/assets/brand/je-inspi-logo-transparent.png"
+                          "/assets/brand/je-inspi-wordmark.png"
                         }
                         alt={item.jewellery.name}
                         fill
