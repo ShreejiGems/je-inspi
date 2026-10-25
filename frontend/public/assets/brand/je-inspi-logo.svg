@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 112" role="img" aria-labelledby="title">
+  <title id="title">JE-Inspi</title>
+  <rect width="520" height="112" fill="none"/>
+  <g fill="#263329">
+    <path d="M46 16h6v49c0 18-9 28-26 28-12 0-21-6-26-17l6-3c4 9 10 13 20 13 13 0 20-7 20-22V16z"/>
+    <text x="83" y="74" font-family="Georgia, 'Times New Roman', serif" font-size="58" letter-spacing="2">JE-Inspi</text>
+  </g>
+  <path d="M84 88h266" stroke="#aec2a4" stroke-width="2"/>
+</svg>

@@ -1,0 +1,32 @@
+# Replace both .example hostnames with domains pointing to the Droplet.
+# Install this draft only after completing the public-launch steps in DIGITALOCEAN.md.
+# Configure HTTPS for both domains before accepting logins or orders.
+server {
+    listen 80;
+    server_name shop.je-inspi.example;
+    client_max_body_size 20m;
+
+    location / {
+        proxy_pass http://127.0.0.1:4002;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}
+
+server {
+    listen 80;
+    server_name admin.je-inspi.example;
+    client_max_body_size 20m;
+
+    location / {
+        proxy_pass http://127.0.0.1:4001;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}

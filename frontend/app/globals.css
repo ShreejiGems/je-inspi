@@ -1,0 +1,180 @@
+@import "tailwindcss";
+@tailwind utilities;
+
+:root {
+  --color-primary: #6b8965;
+  --color-primary-hover: #526f4d;
+  --color-background: #f8f7f1;
+  --color-surface: #ffffff;
+  --color-text: #263329;
+  --color-text-secondary: #73796f;
+  --color-accent: #aec2a4;
+  --color-border: #cbd9c3;
+  --font-garamond: Georgia, "Times New Roman", serif;
+  --font-geist-sans: Arial, Helvetica, sans-serif;
+  --background: var(--color-background);
+  --foreground: var(--color-text);
+}
+
+@theme inline {
+  --color-brand-50: #f1f4ed;
+  --color-brand-100: #e3ebdd;
+  --color-brand-200: #cbd9c3;
+  --color-brand-300: #aec2a4;
+  --color-brand-400: #8fa782;
+  --color-brand-500: #6b8965;
+  --color-brand-600: #526f4d;
+  --color-brand-700: #40583c;
+  --color-brand-800: #31452e;
+  --color-brand-900: #263329;
+  --color-brand-950: #18231a;
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.font-display, h1, h2, h3 { font-family: Georgia, "Times New Roman", serif; }
+.font-ui { font-family: Arial, Helvetica, sans-serif; }
+
+@font-face {
+  font-family: "Futura Bk BT";
+  src: url("/fonts/FuturaBkBT.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+body {
+  font-family: "Futura Bk BT", sans-serif;
+  background: var(--color-background);
+  color: var(--color-text);
+}
+
+:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 3px; }
+@layer base {
+  a { color: var(--color-primary-hover); }
+  h1, h2, h3 { color: var(--color-text); font-family: var(--font-garamond), Georgia, serif; }
+  input[type="checkbox"], input[type="radio"], input[type="range"] { accent-color: #526f4d; }
+  ::selection { background: #cbd9c3; color: #263329; }
+}
+
+/* Animation for fade-in */
+@layer utilities {
+  .animate-fade-in {
+    animation: fadeIn 0.5s ease-in-out;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: scale(0.98);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+}
+
+/* Scrollbar design */
+.scrollbar::-webkit-scrollbar,
+.ant-table-body::-webkit-scrollbar {
+  width: 5px !important;
+  height: 100% !important;
+}
+
+.scrollbar::-webkit-scrollbar-thumb,
+.ant-table-body::-webkit-scrollbar-thumb {
+  background-color: #f1f4ed !important;
+  border-radius: 3px !important;
+}
+
+.scrollbar::-webkit-scrollbar-thumb:hover,
+.ant-table-body::-webkit-scrollbar-thumb:hover {
+  background-color: #8fa782 !important;
+}
+
+/* Button design with  */
+.button-hover-effect {
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.button-hover-effect .icon {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translate(50%, -50%);
+  opacity: 0;
+  transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.2, 1, 0.8, 1);
+  pointer-events: none;
+}
+
+.button-hover-effect:hover .icon {
+  transform: translate(0, -50%);
+  opacity: 1;
+}
+
+.button-hover-effect span {
+  display: inline-block;
+  transition: transform 0.4s cubic-bezier(0.2, 1, 0.8, 1);
+}
+
+.button-hover-effect:hover span {
+  transform: translateX(-10px);
+}
+
+@keyframes moving-thread {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes spin-slow {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin-slow {
+  animation: spin-slow 8s linear infinite;
+}
+
+/* Checked background */
+.brand-checkbox .ant-checkbox-checked .ant-checkbox-inner {
+  background-color: var(--color-primary) !important;
+  border-color: var(--color-primary) !important;
+}
+
+/* Hover */
+.brand-checkbox .ant-checkbox-wrapper:hover .ant-checkbox-inner {
+  border-color: var(--color-primary);
+}
+
+/* Check mark color */
+.brand-checkbox .ant-checkbox-inner::after {
+  border-color: white;
+}
+
+/* Preserve the logo alpha channel without a background panel. */
+img[src*="/assets/brand/je-inspi-logo-transparent.png"] {
+  object-fit: contain;
+  background-color: transparent;
+  border-radius: 0;
+}
+
+/* Use ivory lettering when the logo sits over dark imagery. */
+img.brand-logo-ivory { filter: brightness(0) invert(1); }

@@ -1,0 +1,144 @@
+@import "tailwindcss";
+@tailwind utilities;
+
+:root {
+  --color-primary: #6b8965;
+  --color-primary-hover: #526f4d;
+  --color-background: #f8f7f1;
+  --color-surface: #ffffff;
+  --color-text: #263329;
+  --color-text-secondary: #73796f;
+  --color-accent: #aec2a4;
+  --color-border: #cbd9c3;
+  --font-poppins: Arial, Helvetica, sans-serif;
+  --background: var(--color-background);
+  --foreground: var(--color-text);
+}
+
+@theme inline {
+  --color-brand-50: #f1f4ed;
+  --color-brand-100: #e3ebdd;
+  --color-brand-200: #cbd9c3;
+  --color-brand-300: #aec2a4;
+  --color-brand-400: #8fa782;
+  --color-brand-500: #6b8965;
+  --color-brand-600: #526f4d;
+  --color-brand-700: #40583c;
+  --color-brand-800: #31452e;
+  --color-brand-900: #263329;
+  --color-brand-950: #18231a;
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.font-ui { font-family: Arial, Helvetica, sans-serif; }
+
+@font-face {
+  font-family: "Futura Bk BT";
+  src: url("/fonts/FuturaBkBT.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+body {
+  font-family: "Futura Bk BT", sans-serif;
+  background: var(--color-background);
+  color: var(--color-text);
+}
+
+:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 3px; }
+@layer base {
+  a { color: var(--color-primary-hover); }
+  h1, h2, h3 { color: var(--color-text); font-family: Georgia, serif; }
+  input[type="checkbox"], input[type="radio"], input[type="range"] { accent-color: #526f4d; }
+  ::selection { background: #cbd9c3; color: #263329; }
+}
+
+/* Animation for fade-in */
+@layer utilities {
+  .animate-fade-in {
+    animation: fadeIn 0.5s ease-in-out;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: scale(0.98);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+}
+
+/* Scrollbar design */
+.scrollbar::-webkit-scrollbar,
+.ant-table-body::-webkit-scrollbar {
+  width: 5px !important;
+  height: 100% !important;
+}
+
+.scrollbar::-webkit-scrollbar-thumb,
+.ant-table-body::-webkit-scrollbar-thumb {
+  background-color: #f1f4ed !important;
+  border-radius: 3px !important;
+}
+
+.scrollbar::-webkit-scrollbar-thumb:hover,
+.ant-table-body::-webkit-scrollbar-thumb:hover {
+  background-color: #8fa782 !important;
+}
+
+.custom-select .ant-select-selector {
+  border: 1px solid #cbd9c3 !important;
+  transition: all 0.2s;
+  border-radius: 10px !important;
+}
+
+.custom-select.ant-select-focused .ant-select-selector,
+.custom-select .ant-select-selector:focus,
+.custom-select .ant-select-selector:active {
+  border-color: var(--color-primary) !important;
+  box-shadow: 0 0 0 2px rgba(107, 137, 101, 0.25) !important;
+  border-radius: 10px !important;
+}
+
+/* Only for selects with the "normal-disabled-select" wrapper class */
+.normal-disabled-select.ant-select-disabled {
+  background: #fff !important;
+  opacity: 1 !important;
+  cursor: default !important;
+}
+
+.normal-disabled-select.ant-select-disabled .ant-select-selector {
+  color: rgba(0, 0, 0, 0.85) !important;
+  background: #fff !important;
+  cursor: default !important;
+}
+
+.row-error {
+  background-color: #faf0f0 !important; /* light red */
+}
+
+.row-error:hover > td {
+  background-color: #faf0f0 !important; /* slightly darker on hover */
+}
+
+/* Preserve the logo alpha channel without a background panel. */
+img[src*="/assets/brand/je-inspi-logo-transparent.png"] {
+  object-fit: contain;
+  background-color: transparent;
+  border-radius: 0;
+}
+
+/* Use ivory lettering when the logo sits over dark imagery. */
+img.brand-logo-ivory { filter: brightness(0) invert(1); }

@@ -1,0 +1,742 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+//------------------------------------------ ENUMS ------------------------------------------------------
+
+enum STATUS {
+  ENABLED
+  DISABLED
+}
+
+enum USER_TYPE {
+  USER
+  ADMIN
+}
+
+enum CATEGPRY_TYPE {
+  PRIME_CATEGORY
+  NORMAL_CATEGORY
+}
+
+enum VERIFICATION_TYPE {
+  APPROVE
+  REJECT
+  PENDING
+}
+
+// enum DIAMOND_SHAPE {
+//   ROUND
+//   OVAL
+//   PRINCESS
+//   CUSHION
+//   EMERALD
+//   RADIANT
+//   ASSCHER
+//   MARQUISE
+//   HEART
+//   PEAR
+// }
+
+// enum DIAMOND_COLOR {
+//   D
+//   E
+//   F
+//   G
+//   H
+//   I
+//   J
+//   K
+//   L
+//   M
+//   N
+//   FANCY_LIGHT
+//   FANCY
+//   FANCY_INTENSE
+//   FANCY_VIVID
+//   FANCY_DEEP
+//   FANCY_DARK
+// }
+
+// enum DIAMOND_CLARITY {
+//   IF
+//   VVS1
+//   VVS2
+//   VS1
+//   VS2
+//   SI1
+//   SI2
+//   I1
+//   I2
+// }
+
+enum JEWELRY_COLOR {
+  WHITE
+  YELLOW
+  ROSE
+}
+
+enum REG_TYPE {
+  GST
+  VAT
+  BUSSINESS_REGISTRATION
+  BUSSINESS_LICENCE
+  OTHER
+}
+
+enum PRODUCT_TYPE {
+  JEWELLERY
+  DIAMOND
+}
+
+enum BUSSINESS_TYPE {
+  RETAILER
+  WHOLESELLER
+  MANUFACTURE
+}
+
+enum ORDER_STATUS {
+  PENDING
+  CONFIRMED
+  PROCESSING
+  SHIPPED
+  DELIVERED
+  CANCELLED
+  REFUNDED
+}
+
+enum PAYMENT_STATUS {
+  PENDING
+  PAID
+  CANCELLED
+}
+
+enum GEM_ORIGIN {
+  NATURAL
+  LAB_GROWN
+}
+
+enum MATERIAL {
+  SILVER
+  TEN_KT_GOLD
+  
+  FORTEEN_KT_GOLD
+  EIGHTEEN_KT_GOLD
+}
+
+enum PAYMENT_MODE {
+  INSTANT
+  PAYMENT_CYCLE
+}
+
+enum MEDIA_TYPE {
+  IMAGE
+  VIDEO
+}
+
+enum IMAGE_TYPE {
+  HERO_DESKTOP
+  HERO_MOBILE
+  JEWELLERY_BANNER_DESKTOP
+  JEWELLERY_BANNER_MOBILE
+  DIAMOND_BANNER_DESKTOP
+  DIAMOND_BANNER_MOBILE
+  JEWELLERY_VIDEO
+  DIAMOND_VIDEO
+}
+
+enum DIAMOND_SOURCE {
+  MANUAL
+  API
+}
+
+enum CHECKOUT_CURRENCY {
+  INR
+  USD
+}
+
+//------------------------------------------ MODELS ----------------------------------------------------
+
+model Calculator {
+  id                    String @id @unique @default(uuid())
+  miscellaneous         Float  @default(0)
+  silverPerGram         Float  @default(0)
+  tenKtGoldPerGram      Float  @default(0)
+  forteenKtGoldPerGram  Float  @default(0)
+  eighteenKtGoldPerGram Float  @default(0)
+  extraCost             Float  @default(0)
+  duty                  Float  @default(0)
+  profit                Float  @default(0)
+  usRate                Float  @default(0)
+  dollarRupeeRate       Float  @default(0)
+
+  filterMin Float?
+  filterMax Float?
+
+  status    STATUS   @default(ENABLED)
+  isDeleted Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+}
+
+model SectionImage {
+  id        String     @id @unique @default(uuid())
+  image     String
+  imageType IMAGE_TYPE
+  mediaType MEDIA_TYPE @default(VIDEO)
+
+  status    STATUS   @default(ENABLED)
+  isDeleted Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+}
+
+//------------------------------------------ JEWELRY ----------------------------------------------------
+
+model Category {
+  id              String        @id @unique @default(uuid())
+  name            String        @db.Text
+  categoryType    CATEGPRY_TYPE @default(NORMAL_CATEGORY)
+  marketingImages Json?
+
+  status    STATUS   @default(ENABLED)
+  isDeleted Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  subCategory  SubCategory[]
+  type         Type[]
+  jewellery    Jewellery[]
+  primeProduct PrimeProduct[]
+}
+
+model SubCategory {
+  id         String   @id @unique @default(uuid())
+  name       String   @db.Text
+  category   Category @relation(fields: [categoryId], references: [id])
+  categoryId String
+
+  status    STATUS   @default(ENABLED)
+  isDeleted Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  type      Type[]
+  jewellery Jewellery[]
+}
+
+model Type {
+  id            String      @id @unique @default(uuid())
+  name          String      @db.Text
+  category      Category    @relation(fields: [categoryId], references: [id])
+  categoryId    String
+  subCategory   SubCategory @relation(fields: [subCategoryId], references: [id])
+  subCategoryId String
+
+  status    STATUS   @default(ENABLED)
+  isDeleted Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  jewellery Jewellery[]
+}
+
+model Collection {
+  id   String @id @unique @default(uuid())
+  name String @db.Text
+
+  status              STATUS                @default(ENABLED)
+  isDeleted           Boolean               @default(false)
+  createdAt           DateTime              @default(now())
+  updatedAt           DateTime              @default(now()) @updatedAt
+  jewelleryCollection JewelleryCollection[]
+}
+
+model Jewellery {
+  id            String      @id @unique @default(uuid())
+  name          String      @db.Text
+  sku           String
+  category      Category    @relation(fields: [categoryId], references: [id])
+  categoryId    String
+  subCategory   SubCategory @relation(fields: [subCategoryId], references: [id])
+  subCategoryId String
+  type          Type        @relation(fields: [typeId], references: [id])
+  typeId        String
+  description   String      @db.Text
+  images        Json?
+
+  basePrice Float? @default(0)
+
+  status    STATUS   @default(ENABLED)
+  isDeleted Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  jewelleryVariant    JewelleryVariant[]
+  cartItems           CartItem[]
+  orderItems          OrderItem[]
+  jewelleryCollection JewelleryCollection[]
+  wishlist            Wishlist[]
+  primeProduct        PrimeProduct[]
+}
+
+model JewelleryCollection {
+  id           String     @id @unique @default(uuid())
+  jewellery    Jewellery  @relation(fields: [jewelleryId], references: [id])
+  jewelleryId  String
+  collection   Collection @relation(fields: [collectionId], references: [id])
+  collectionId String
+
+  status    STATUS   @default(ENABLED)
+  isDeleted Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+}
+
+model PrimeProduct {
+  id               String          @id @unique @default(uuid())
+  category         Category?       @relation(fields: [categoryId], references: [id])
+  categoryId       String?
+  jewellery        Jewellery?      @relation(fields: [jewelleryId], references: [id])
+  jewelleryId      String?
+  diamondProduct   DiamondProduct? @relation(fields: [diamondProductId], references: [id])
+  diamondProductId String?
+  productType      PRODUCT_TYPE
+  primeImage       String
+
+  status    STATUS   @default(ENABLED)
+  isDeleted Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+}
+
+model JewelleryVariant {
+  id             String      @id @unique @default(uuid())
+  jewellery      Jewellery   @relation(fields: [jewelleryId], references: [id])
+  jewelleryId    String
+  gemOrigin      GEM_ORIGIN?
+  hasGems        Boolean     @default(false)
+  size           Int         @default(0)
+  silver         Float?      @default(0)
+  tenKtGold      Float?      @default(0)
+  forteenKtGold  Float?      @default(0)
+  eighteenKtGold Float?      @default(0)
+  mesurement     Json?
+
+  basePrice      Float? @default(0)
+  totalGemWeight Float?
+
+  status    STATUS   @default(ENABLED)
+  isDeleted Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  gem        Gem[]
+  cartItems  CartItem[]
+  orderItems OrderItem[]
+}
+
+model Gem {
+  id        String           @id @unique @default(uuid())
+  variant   JewelleryVariant @relation(fields: [variantId], references: [id])
+  variantId String
+  shape     String
+  mm        String
+  weight    Float
+  color     String
+  clarity   String
+  quantity  Int
+
+  status    STATUS   @default(ENABLED)
+  isDeleted Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+}
+
+//------------------------------------------ DIAMOND ----------------------------------------------------
+
+// model DiamondVariant {
+//   id             String @id @unique @default(uuid())
+//   weightStartsAt Float
+//   weightEndsAt   Float
+
+//   status    STATUS   @default(ENABLED)
+//   isDeleted Boolean  @default(false)
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @default(now()) @updatedAt
+
+//   diamondPrice DiamondPrice[]
+// }
+
+// model DiamondPrice {
+//   id        String     @id @unique @default(uuid())
+//   gemOrigin GEM_ORIGIN @default(NATURAL)
+//   shape     String
+//   weight    Float
+
+//   color   DIAMOND_COLOR
+//   clarity DIAMOND_CLARITY
+//   price   Float
+
+//   status    STATUS   @default(ENABLED)
+//   isDeleted Boolean  @default(false)
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @default(now()) @updatedAt
+// }
+
+model Certificate {
+  id             String @id @unique @default(uuid())
+  weightStartsAt Float
+  weightEndsAt   Float
+  price          Float
+
+  status    STATUS   @default(ENABLED)
+  isDeleted Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+}
+
+model DiamondProduct {
+  id                     String         @id @unique @default(uuid())
+  gemOrigin              GEM_ORIGIN     @default(NATURAL)
+  name                   String
+  sku                    String
+  shape                  String
+  weight                 Float
+  color                  String
+  clarity                String
+  cut                    String?
+  symmetry               String?
+  lab                    String?
+  polish                 String?
+  certificateNo          String?
+  height                 Float?
+  width                  Float?
+  length                 Float?
+  totalDepthInPercentage Float?
+  totalWidthInPercentage Float?
+  girdle                 String?
+  fluorescence           String?
+  images                 Json?
+  videos                 Json?
+  certificateUrl         String?
+  source                 DIAMOND_SOURCE @default(MANUAL)
+
+  rap   Float
+  price Float
+
+  status       STATUS         @default(ENABLED)
+  isDeleted    Boolean        @default(false)
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @default(now()) @updatedAt
+  PrimeProduct PrimeProduct[]
+  wishlists    Wishlist[]
+}
+
+//------------------------------------------ USER ----------------------------------------------------
+
+model User {
+  id                    String            @id @unique @default(uuid())
+  verficationType       VERIFICATION_TYPE @default(PENDING)
+  email                 String
+  title                 String?
+  companyName           String?
+  firstName             String?
+  lastName              String?
+  countryCode           String?
+  mobile                String?
+  website               String?
+  address               String?
+  city                  String?
+  postalCode            String?
+  country               String?
+  companyNumber         String?
+  registrationCopyImage String?
+  registrationCopyType  REG_TYPE?
+  bussinessType         BUSSINESS_TYPE?
+  userType              USER_TYPE         @default(USER)
+
+  paymentMode  PAYMENT_MODE? @default(INSTANT)
+  paymentCycle Int?
+  discount     Float?        @default(0)
+
+  // shippingAddress    String?
+  // shippingCity       String?
+  // shippingState      String?
+  // shippingCountry    String?
+  // shippingPostalCode String?
+
+  status    STATUS   @default(ENABLED)
+  isDeleted Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  password         Password?
+  referenceDetails referenceDetails?
+  carts            Cart[]
+  purchasedOrders  PurchasedOrder[]
+  userSession      UserSession[]
+  wishlist         Wishlist[]
+}
+
+model UserSession {
+  id           String  @id @unique @default(uuid())
+  user         User?   @relation(fields: [userId], references: [id])
+  userId       String?
+  authToken    String  @db.Text
+  refreshToken String? @db.Text
+
+  status    STATUS   @default(ENABLED)
+  isDeleted Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+}
+
+model referenceDetails {
+  id                String @id @unique @default(uuid())
+  user              User   @relation(fields: [userId], references: [id])
+  userId            String @unique
+  companyName       String
+  contactPersonName String
+  email             String
+  countryCode       String
+  mobile            String
+  address           String
+  city              String
+  postalCode        String
+  country           String
+
+  status    STATUS   @default(ENABLED)
+  isDeleted Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+}
+
+model Password {
+  id       String @id @unique @default(uuid())
+  user     User   @relation(fields: [userId], references: [id])
+  userId   String @unique
+  password String
+
+  status    STATUS   @default(ENABLED)
+  isDeleted Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+}
+
+model Wishlist {
+  id               String          @id @unique @default(uuid())
+  user             User            @relation(fields: [userId], references: [id])
+  userId           String
+  jewellery        Jewellery?      @relation(fields: [jewelleryId], references: [id])
+  jewelleryId      String?
+  diamondProduct   DiamondProduct? @relation(fields: [diamondProductId], references: [id])
+  diamondProductId String?
+
+  status    STATUS   @default(ENABLED)
+  isDeleted Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+}
+
+model Cart {
+  id String @id @unique @default(uuid())
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
+
+  cartItems CartItem[]
+
+  status    STATUS   @default(ENABLED)
+  isDeleted Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+}
+
+model CartItem {
+  id String @id @unique @default(uuid())
+
+  cart   Cart   @relation(fields: [cartId], references: [id])
+  cartId String
+
+  jewellery   Jewellery        @relation(fields: [jewelleryId], references: [id])
+  jewelleryId String
+  variant     JewelleryVariant @relation(fields: [variantId], references: [id])
+  variantId   String
+
+  quantity Int
+  // unitPrice  Float
+  // totalPrice Float
+
+  sku                String
+  selectedColor      JEWELRY_COLOR
+  selectedSize       Float
+  material           MATERIAL
+  includeCertificate Boolean       @default(false)
+
+  status    STATUS   @default(ENABLED)
+  isDeleted Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+}
+
+model PurchasedOrder {
+  id String @id @unique @default(uuid())
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
+
+  orderNumber String   @unique
+  orderDate   DateTime @default(now())
+
+  subtotal    Float
+  tax         Float
+  shipping    Float
+  totalAmount Float
+
+  orderStatus ORDER_STATUS @default(PENDING)
+
+  shippingAddress    String
+  shippingCity       String
+  shippingState      String
+  shippingCountry    String
+  shippingPostalCode String
+
+  paymentMethod    PAYMENT_MODE      @default(INSTANT)
+  paymentStatus    PAYMENT_STATUS    @default(PENDING)
+  razorpayOrderId  String?
+  transactionId    String?
+  checkoutCurrency CHECKOUT_CURRENCY @default(USD)
+
+  orderItems OrderItem[]
+
+  status    STATUS   @default(ENABLED)
+  isDeleted Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+}
+
+model OrderItem {
+  id String @id @unique @default(uuid())
+
+  order   PurchasedOrder @relation(fields: [orderId], references: [id])
+  orderId String
+
+  jewellery   Jewellery        @relation(fields: [jewelleryId], references: [id])
+  jewelleryId String
+  variant     JewelleryVariant @relation(fields: [variantId], references: [id])
+  variantId   String
+
+  sku        String
+  quantity   Int
+  unitPrice  Float
+  totalPrice Float
+
+  selectedColor      JEWELRY_COLOR?
+  selectedSize       Float?
+  material           MATERIAL
+  includeCertificate Boolean        @default(false)
+
+  status    STATUS   @default(ENABLED)
+  isDeleted Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+}
+
+//------------------------------------------------------- contact/inquiry ---------------------------------------
+
+model contactUs {
+  id           String  @id @unique @default(uuid())
+  title        String
+  firstName    String
+  lastName     String
+  email        String
+  countryCode  String
+  mobile       String
+  address      String
+  city         String
+  postalCode   String
+  country      String
+  isRegistered Boolean
+
+  status    STATUS   @default(ENABLED)
+  isDeleted Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+}
+
+model customInquiry {
+  id              String  @id @unique @default(uuid())
+  inquiresFor     Json
+  description     String?
+  referenceImages Json?
+  referenceLinks  Json?
+  title           String?
+  firstName       String
+  lastName        String?
+  email           String
+  countryCode     String
+  mobile          String
+  streetAddress   String?
+  city            String
+  postalCode      String
+  country         String
+
+  status    STATUS   @default(ENABLED)
+  isDeleted Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+}
+
+model Event {
+  id          String @id @unique @default(uuid())
+  title       String
+  image       String
+  description String
+
+  status    STATUS   @default(ENABLED)
+  isDeleted Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+}
+
+model Catelogue {
+  id         String @id @unique @default(uuid())
+  name       String
+  coverImage String
+  pdfUrl     String
+
+  status    STATUS   @default(ENABLED)
+  isDeleted Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+}
+
+model Location {
+  id          String @id @unique @default(uuid())
+  country     String
+  countryCode String
+  phone       String
+  email       String
+
+  status    STATUS   @default(ENABLED)
+  isDeleted Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+}
+
+model Otp {
+  id    String @id @unique @default(uuid())
+  email String
+  otp   Int
+
+  status    STATUS   @default(ENABLED)
+  isDeleted Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+}
